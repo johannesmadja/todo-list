@@ -71,6 +71,11 @@ function TodoReducer(state, action) {
               },
         ),
       };
+      case "SET_THEME":
+        return {
+          ...state, 
+          theme : action.theme
+        }
     default:
       throw new Error("Action inconnue");
   }
