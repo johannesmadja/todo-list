@@ -1,22 +1,27 @@
+import { useContext } from "react";
 import EditTodo from "./EditTodo";
 import TodoItem from "./TodoItem";
+import { StateContext } from "../context/TodoContext";
 
-function TodoList({ todoList, deleteTodo, toogleValidate, toogleEdit, saveEdit, selectTodo }) {
-  return todoList.length ? (
+function TodoList() {
+
+  const state = useContext(StateContext)
+
+  return state.todoList.length ? (
     <ul>
-      {todoList.map((todo) => todo.edit ? (
-        <EditTodo key={todo.id} todo={todo} saveEdit={(content) => saveEdit(todo.id, content)} cancelEdit={() => toogleEdit(todo.id)}/>
-      ) : 
-      (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          deleteTodo={() => deleteTodo(todo.id)}
-          toogleValidate={() => toogleValidate(todo.id)}
-          editTodo={() => toogleEdit(todo.id)}
-          selectTodo={() => selectTodo(todo.id)}
-        />
-      ))}
+      {state.todoList.map((todo) =>
+        todo.edit ? (
+          <EditTodo
+            key={todo.id}
+            todo={todo}
+          />
+        ) : (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+          />
+        ),
+      )}
     </ul>
   ) : (
     <p>Aucune tâche à afficher</p>

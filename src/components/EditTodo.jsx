@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "./Button";
+import { DispatchContext } from "../context/TodoContext";
 
-function EditTodo({ todo, saveEdit, cancelEdit }) {
+function EditTodo({ todo }) {
   const [value, setValue] = useState(todo.content);
+  const dispatch = useContext(DispatchContext);
 
   function handleChange(event) {
     const inputValue = event.target.value;
@@ -11,7 +13,11 @@ function EditTodo({ todo, saveEdit, cancelEdit }) {
 
   function handleKeyDown(event) {
     if (event.key === "Enter" && value.length) {
-      saveEdit(value);
+      dispatch({
+        type: "EDIT_TODO",
+        todoId: todo.id,
+        content: value,
+      });
       setValue("");
     }
   }
@@ -29,10 +35,25 @@ function EditTodo({ todo, saveEdit, cancelEdit }) {
       />
       <Button
         text="Modifier"
-        onClick={() => saveEdit(value)}
+        onClick={() =>
+          dispatch({
+            type: "EDIT_TODO",
+            todoId: todo.id,
+            content: value,
+          })
+        }
         classStyle="mr-15"
       />
-      <Button text="Annuler" onClick={cancelEdit} classStyle="mr-15" />
+      <Button
+        text="Annuler"
+        onClick={() =>
+          dispatch({
+            type: "TOGGLE_EDIT_TODO",
+            todoId: todo.id,
+          })
+        }
+        classStyle="mr-15"
+      />
     </div>
   );
 }
