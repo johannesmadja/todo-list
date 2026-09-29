@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import Button from "./Button";
 import { DispatchContext } from "../context/TodoContext";
+import { UpdateTodo } from "./api/api";
 
 function EditTodo({ todo }) {
   const [value, setValue] = useState(todo.content);
@@ -11,11 +12,19 @@ function EditTodo({ todo }) {
     setValue(inputValue);
   }
 
+  async function Update(todo) {
+    const updatedValue = await UpdateTodo(todo);
+    dispatch({
+      type: "UPDATE_TODO",
+      todo: updatedValue,
+    });
+  }
+
   function handleKeyDown(event) {
     if (event.key === "Enter" && value.length) {
       dispatch({
         type: "EDIT_TODO",
-        todoId: todo.id,
+        todoId: todo._id,
         content: value,
       });
       setValue("");
@@ -35,23 +44,12 @@ function EditTodo({ todo }) {
       />
       <Button
         text="Modifier"
-        onClick={() =>
-          dispatch({
-            type: "EDIT_TODO",
-            todoId: todo.id,
-            content: value,
-          })
-        }
+        onClick={() => Update({ ...todo, edit: !todo.edit, content: value })}
         classStyle="mr-15"
       />
       <Button
         text="Annuler"
-        onClick={() =>
-          dispatch({
-            type: "TOGGLE_EDIT_TODO",
-            todoId: todo.id,
-          })
-        }
+        onClick={() => Update({ ...todo, edit: !todo.edit })}
         classStyle="mr-15"
       />
     </div>

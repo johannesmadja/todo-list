@@ -1,16 +1,25 @@
 import { useContext } from "react";
 import Button from "./Button";
 import { DispatchContext } from "../context/TodoContext";
+import { UpdateTodo } from "./api/api";
 
 function TodoItem({ todo }) {
   const dispatch = useContext(DispatchContext);
+
+  async function Update(todo) {
+    const updatedValue = await UpdateTodo(todo);
+    dispatch({
+      type: "UPDATE_TODO",
+      todo: updatedValue,
+    });
+  }
 
   return (
     <li
       onClick={() =>
         dispatch({
           type: "SELECT_TODO",
-          todoId: todo.id,
+          todoId: todo._id,
         })
       }
       className={`d-flex flex-row justify-content-center align-items-center mb-20 p-5 ${todo.selected && "selected"}`}
@@ -23,10 +32,7 @@ function TodoItem({ todo }) {
         classStyle="mr-15"
         onClick={(e) => {
           e.stopPropagation();
-          dispatch({
-            type: "VALIDATE_TODO",
-            todoId: todo.id,
-          });
+          Update({ ...todo, done: !todo.done });
         }}
       />
       <Button
@@ -34,10 +40,7 @@ function TodoItem({ todo }) {
         classStyle="mr-15"
         onClick={(e) => {
           e.stopPropagation();
-          dispatch({
-            type: "TOGGLE_EDIT_TODO",
-            todoId: todo.id,
-          });
+          Update({ ...todo, edit: !todo.edit });
         }}
       />
       <Button
@@ -46,7 +49,7 @@ function TodoItem({ todo }) {
           e.stopPropagation();
           dispatch({
             type: "DELETE_TODO",
-            todoId: todo.id,
+            todoId: todo._id,
           });
         }}
       />

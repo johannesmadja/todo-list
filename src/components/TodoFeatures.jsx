@@ -4,16 +4,16 @@ import TodoList from "./TodoList";
 import { DispatchContext } from "../context/TodoContext";
 
 function TodoFeatures() {
-const [theme, setTheme] = useState("primary");
-const dispatch = useContext(DispatchContext);
+  const [theme, setTheme] = useState("primary");
+  const dispatch = useContext(DispatchContext);
 
   // handle select list change
   function handleChange(event) {
-    const theme = event.target.value; 
+    const theme = event.target.value;
     setTheme(theme);
     dispatch({
-        type: 'SET_THEME', 
-        theme
+      type: "SET_THEME",
+      theme,
     });
   }
 
@@ -22,7 +22,7 @@ const dispatch = useContext(DispatchContext);
       <div className="container card p-20">
         <div className="d-flex flex-row justify-content-center align-items-center">
           <h1 className="mb-20 flex-fill">Ma Todo liste</h1>
-          <select onChange={handleChange} value={theme} name="">
+          <select onChange={handleChange} value={theme}>
             <option value="primary">Couleur primaire</option>
             <option value="secondary">Couleur secondaire</option>
           </select>
