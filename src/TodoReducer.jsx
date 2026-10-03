@@ -22,43 +22,6 @@ function TodoReducer(state, action) {
         ...state,
         todoList: state.todoList.filter((todo) => todo._id != action.todoId),
       };
-    // case "VALIDATE_TODO":
-    //   return {
-    //     ...state,
-    //     todoList: state.todoList.map((todo) =>
-    //       todo._id === action.todoId
-    //         ? {
-    //             ...todo,
-    //             done: !todo.done,
-    //           }
-    //         : todo,
-    //     ),
-    //   };
-    case "TOGGLE_EDIT_TODO":
-      return {
-        ...state,
-        todoList: state.todoList.map((todo) =>
-          todo._id === action.todoId
-            ? {
-                ...todo,
-                edit: !todo.edit,
-              }
-            : todo,
-        ),
-      };
-    case "EDIT_TODO":
-      return {
-        ...state,
-        todoList: state.todoList.map((todo) =>
-          todo._id === action.todoId
-            ? {
-                ...todo,
-                edit: false,
-                content: action.content,
-              }
-            : todo,
-        ),
-      };
     case "SELECT_TODO":
       return {
         ...state,

@@ -20,13 +20,9 @@ function EditTodo({ todo }) {
     });
   }
 
-  function handleKeyDown(event) {
+  function handleKeyDown(event, value) {
     if (event.key === "Enter" && value.length) {
-      dispatch({
-        type: "EDIT_TODO",
-        todoId: todo._id,
-        content: value,
-      });
+      Update({ ...todo, edit: !todo.edit, content: value });
       setValue("");
     }
   }
@@ -39,7 +35,7 @@ function EditTodo({ todo }) {
         name="todo"
         value={value}
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(e) => handleKeyDown(e, value)}
         placeholder="Ajouter une tâche"
       />
       <Button

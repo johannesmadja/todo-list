@@ -19,3 +19,18 @@ export async function UpdateTodo(todo) {
     console.error(error);
   }
 }
+
+export async function DeletedTodo(todoId) {
+  try {
+    const response = await fetch(`https://restapi.fr/api/todo/${todoId}`, {
+      method : 'DELETE'
+    })
+
+    if (response.ok) {
+      const deletedTodo = await response.json();
+      return deletedTodo;
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}

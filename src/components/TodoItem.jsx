@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Button from "./Button";
 import { DispatchContext } from "../context/TodoContext";
-import { UpdateTodo } from "./api/api";
+import { DeletedTodo, UpdateTodo } from "./api/api";
 
 function TodoItem({ todo }) {
   const dispatch = useContext(DispatchContext);
@@ -14,14 +14,23 @@ function TodoItem({ todo }) {
     });
   }
 
+  async function deleteTodo(todoId) {
+    const deletedTodo = await DeletedTodo(todoId);
+    dispatch({
+      type: "DELETE_TODO",
+      todoId: deletedTodo._id,
+    });
+  }
+
   return (
     <li
-      onClick={() =>
-        dispatch({
-          type: "SELECT_TODO",
-          todoId: todo._id,
-        })
-      }
+      onClick={(e) => {
+        (e.stopPropagation(),
+          dispatch({
+            type: "SELECT_TODO",
+            todoId: todo._id,
+          }));
+      }}
       className={`d-flex flex-row justify-content-center align-items-center mb-20 p-5 ${todo.selected && "selected"}`}
     >
       <span className="flex-fill">
@@ -47,10 +56,7 @@ function TodoItem({ todo }) {
         text="Supprimer"
         onClick={(e) => {
           e.stopPropagation();
-          dispatch({
-            type: "DELETE_TODO",
-            todoId: todo._id,
-          });
+          deleteTodo(todo.id);
         }}
       />
     </li>
