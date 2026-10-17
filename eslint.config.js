@@ -18,4 +18,25 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  // Tests end-to-end Cypress : globals de Mocha (describe, it...) et de Cypress (cy, Cypress, expect...)
+  {
+    files: ['cypress/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.mocha,
+        cy: 'readonly',
+        Cypress: 'readonly',
+        expect: 'readonly',
+        assert: 'readonly',
+      },
+    },
+  },
+  // Fichier de config Cypress exécuté par Node
+  {
+    files: ['cypress.config.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])
